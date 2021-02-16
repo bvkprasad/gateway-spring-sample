@@ -1,0 +1,22 @@
+server:
+  port: 8082
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: healthcheck
+          uri: ${TEST_DOMAIN_URL}
+          predicates:
+            - Path=/test/**
+            - Method=GET
+        - id: authserver
+          uri: ${AUTH_SERVER_URL}
+          predicates:
+            - Path=/auth/**
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AUTH_SERVER_URL}/auth/realms/sacareers
+logging:
+  debug: true
